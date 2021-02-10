@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour, IExecute
     private float _animationBlend;
 
     public bool _stateSpinning = false;
-    [SerializeField] [Range(2f, 100f)] private float _smoothRange = 3;
+    [SerializeField] [Range(2f, 100f)] private float _smoothRange = 5;
 
     // Start is called before the first frame update
     private void Awake()
@@ -79,7 +79,7 @@ public class PlayerController : MonoBehaviour, IExecute
         _movingVector = _playerTransform.position;
         if (_inputController.DragingStarted)
         {
-            _animatorIdle.SetBool("Spinning", true);            
+            _animatorIdle.SetBool("Spinning", true);
             _movingVector.x = _inputController.GetTargetVector.x;
             _movingVector.y = 0;
             _movingVector.z = _inputController.GetTargetVector.y;
@@ -89,19 +89,15 @@ public class PlayerController : MonoBehaviour, IExecute
             //_rig.velocity += new Vector3(_inputController.GetTargetVector.x, 0, _inputController.GetTargetVector.y) / _speedModifyer;
 
 
-            _rotateParentTransform.rotation = Quaternion.RotateTowards(_rotateParentTransform.rotation, Quaternion.LookRotation(_movingVector), 3.0f);
-            
-            _smoothAnimation = (Math.Abs(_rig.velocity.x) + Math.Abs(_rig.velocity.y) + Math.Abs(_rig.velocity.z))/3;
+            _rotateParentTransform.rotation = Quaternion.RotateTowards(_rotateParentTransform.rotation, Quaternion.LookRotation(_movingVector), 30.0f);
+            _smoothAnimation = _inputController.Magnitude;
             _animationBlend = _smoothAnimation / _smoothRange;
-            
-
-
-            if (_animationBlend > 1)
+            if (_animationBlend > 1.0f)
             {
-                _animationBlend = 1;
+                _animationBlend = 1.0f;
             }
-            _animatorIdle.SetFloat("Blend", _animationBlend);
-            Debug.Log($"{_animationBlend}");
+            _animatorRunner.SetFloat("Blend", _animationBlend);
+            Debug.Log($"Blend:{_animationBlend}");
 
         }
         else 

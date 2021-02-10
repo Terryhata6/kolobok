@@ -12,7 +12,11 @@ public class InputController : MonoBehaviour, IExecute
 	private Touch touch;
 	[SerializeField] private Vector3 _targetVector;
 	private Vector3 _startTouchPosition;
-
+	private float _magnitude;
+	public float Magnitude
+	{
+		get => _magnitude;
+	}
 
 	public Vector3 GetTargetVector
 	{
@@ -62,16 +66,15 @@ public class InputController : MonoBehaviour, IExecute
 				if (DragingStarted == false)
 				{
 					_startTouchPosition = Input.mousePosition / 100;
+
 				}
 				_dragingStarted = true;
 				TouchPosition = Input.mousePosition / 100;
 				_targetVector = TouchPosition - _startTouchPosition;
 				//_targetVector = _targetVector.normalized;
+				_magnitude = _targetVector.magnitude;
+				Debug.Log($"магнитуда: {_magnitude}");
 				
-				if (_targetVector.magnitude < 100)
-				{ 
-					
-				}
 			}
 			else
 			{
