@@ -35,5 +35,6 @@ public class KolobotManager : MonoBehaviour
         _player.ChangeSpinningState(false);
     }
 
+    
 
 }
