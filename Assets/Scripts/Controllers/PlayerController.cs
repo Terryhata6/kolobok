@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour, IExecute
         _rig = GetComponent<Rigidbody>();
         _inputController = FindObjectOfType<InputController>();
         _playerTransform = GetComponent<Transform>();
-        _runnerPrefab.SetRenderersState(false);
+        
 
         _animatorIdle = _idlePrefab.GetComponent<Animator>();
         _animatorRunner = _runnerPrefab.GetComponent<Animator>();
@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour, IExecute
 
     void Start()
     {
-        
+        _runnerPrefab.SetRenderersState(false);
     }
 
     public void Execute()
