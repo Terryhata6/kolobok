@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class TurretEnemy : Enemy
 {
-    private Vector3 viewVector;   
+    
+    
     // Start is called before the first frame update 
     // Update is called once per frame
 
@@ -17,27 +18,26 @@ public class TurretEnemy : Enemy
     public override void Execute()
     {
         base.Execute();
-        if (!_isDead)
-        {
-            if (PlayerInTarget)
-            {
-                viewVector.x = _player.transform.position.x;
-                viewVector.y = 0;
-                viewVector.z = _player.transform.position.z;
-                _myHeadTrransform.LookAt(viewVector);
-                MyAnimator.SetBool("Attack", true);
-                MyAnimator.SetBool("true", false);
-            }
-            else
-            {
-                MyAnimator.SetBool("Idle", true);
-                MyAnimator.SetBool("Attack", false);
-            }
-        }        
+               
+    }
+    public override void SetAnimatorIdleState(bool value)
+    {
+        base.SetAnimatorIdleState(value);
+        MyAnimator.SetBool("Attack", value);
+        MyAnimator.SetBool("Idle", !value);
     }
 
-    public override void Attack() 
-    { 
+    public void AttackLeftGun()
+    {
+        Attack(_weapons[0]);
+    }
+    public void AttackRightGun()
+    {
+        Attack(_weapons[1]);
+    }
+    public override void Attack(Transform weapon) 
+    {
+        base.Attack(weapon);
         
     }
 }

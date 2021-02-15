@@ -25,10 +25,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fb82d322bd0a12419556ca62a524547, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _disabledButtonMaterial: {fileID: 2100000, guid: bbd718dea26dd564b9c7eea42debb14d,
-    type: 2}
-  _enabledButtonMaterial: {fileID: 2100000, guid: 326bb5a04ee755e419886b5893edc44e,
-    type: 2}
+  _materials:
+  - {fileID: 2100000, guid: 326bb5a04ee755e419886b5893edc44e, type: 2}
+  - {fileID: 2100000, guid: b293e7f8025a7114da5adea8559d8343, type: 2}
+  - {fileID: 2100000, guid: 3abc62183b69a0e4f9c61851011f2458, type: 2}
+  - {fileID: 2100000, guid: 41e15db233ad8ee4e81eb33388d575ea, type: 2}
+  - {fileID: 2100000, guid: fa7d66ba59922d34daf50f5422c7f439, type: 2}
+  type: 3
   _renderer: {fileID: 0}
 --- !u!1001 &820163497541021279
 PrefabInstance:
@@ -115,7 +118,7 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 9feff63cb2ae7cd4ab72990919f29ebb,
         type: 3}
       propertyPath: m_Name
-      value: button (1) Variant
+      value: FlourButton
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9feff63cb2ae7cd4ab72990919f29ebb, type: 3}

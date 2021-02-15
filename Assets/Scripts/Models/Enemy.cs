@@ -1,33 +1,40 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour
 {
-    [SerializeField] protected Transform _myHeadTrransform;
+    [SerializeField] protected Transform _myHeadTransform;
     [SerializeField] protected Transform[] _weapons;
     [SerializeField] protected GameObject _projectile;
     [SerializeField] [Range(.1f, 1.0f)] protected float _cooldownAttackTime;
     [SerializeField] protected float _visibilityDistance;
+    [SerializeField] protected float _projectileSpeed = 100;
+    [SerializeField] protected bool _bodyHeadDifference = false;
+    [SerializeField] protected float _distanceToPlayer;
+   
+    protected bool _rotateToHead = false;
     protected bool _attackReady = true;
     protected bool _playerInTarget = false;
     protected bool _needCountDistance = true;
     protected bool _lookAtPlayer = true;
     protected bool _isDead = false;
-    protected float _distanceToPlayer;
+    protected bool _differenceSideIsLeft = false;
+    
+    protected float _rotationDifference;
+    
     protected PlayerController _player;
     protected Animator _animator;
     protected EnemyController _enemyController;
-
+    protected Vector3 viewVector;
+    
+    private GameObject _tempProjectile;
+    private Rigidbody _tempRigidbody;
 
 
     public bool PlayerInTarget 
     {
         get => _playerInTarget;
-    }
-    public bool IsDead
-    {
-        get => _isDead;
-        set => _isDead = value;
-    }
+    }    
     public Animator MyAnimator
     {
         get => _animator;
@@ -51,10 +58,23 @@ public abstract class Enemy : MonoBehaviour
         {
             Debug.LogError($"Can't add {this} in update list. Enemy controller not found");
         }
+        
     }
 
     public virtual void Execute()
     {
+        if (_bodyHeadDifference)
+        {
+            CountRotationDifference();
+            if (!_rotateToHead)
+            {
+                OnBodyNotRotation();
+            }
+            if (_rotateToHead)
+            {                
+                OnBodyRotation();
+            }            
+        }
         if (_needCountDistance)
         {
             _distanceToPlayer = (_player.transform.position - transform.position).magnitude;
@@ -67,9 +87,59 @@ public abstract class Enemy : MonoBehaviour
         { 
             _playerInTarget = false;
         }
+        if (!_isDead)
+        {
+            if (PlayerInTarget)
+            {
+                viewVector.x = _player.transform.position.x;
+                viewVector.y = _myHeadTransform.position.y;
+                viewVector.z = _player.transform.position.z;
+                _myHeadTransform.LookAt(viewVector);
+                SetAnimatorIdleState(true);                
+            }
+            else
+            {
+                SetAnimatorIdleState(false);
+            }
+        }        
+    }
+
+    protected virtual void OnBodyRotation()
+    {        
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, _myHeadTransform.rotation, 0.5f);
+        if (_rotationDifference < 3) 
+        {
+            transform.rotation = _myHeadTransform.rotation;
+            _rotateToHead = false;
+        }
+    }
+
+    protected virtual void OnBodyNotRotation()
+    {
+        if (_rotationDifference > 30)
+            _rotateToHead = true;
+    }
+
+    /// <summary>
+    /// Count difference between Body and Head rotations
+    /// </summary>
+    protected virtual void CountRotationDifference()
+    {
+        _rotationDifference = Math.Max(_myHeadTransform.rotation.eulerAngles.y, transform.rotation.eulerAngles.y) - 
+            Math.Min(_myHeadTransform.rotation.eulerAngles.y, transform.rotation.eulerAngles.y);
+        if (_rotationDifference > 180)
+            _rotationDifference = 360 - _rotationDifference;
         
     }
 
-    public virtual void Attack(){ }
+
+    public virtual void SetAnimatorIdleState(bool value){}
+
+    public virtual void Attack(Transform weapon){
+        _tempProjectile = Instantiate(_projectile, weapon.position, Quaternion.identity);
+        _tempRigidbody = _tempProjectile.GetComponent<Rigidbody>();
+        _tempRigidbody.AddForce((_player.transform.position - transform.position) * _projectileSpeed, ForceMode.Impulse);
+        Destroy(_tempProjectile, 2.0f);
+    }
 
 }
