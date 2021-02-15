@@ -8,6 +8,8 @@ public class SphereController : MonoBehaviour
     [SerializeField] private float _horAxis;
     [SerializeField] private float _verAxis;
 
+    private JoystickController _joyscick;
+
     private Vector3 _moveVector;
     private Rigidbody _rigidbody;
 
@@ -18,6 +20,7 @@ public class SphereController : MonoBehaviour
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        _joyscick = FindObjectOfType<JoystickController>();
     }
 
     private void FixedUpdate()
@@ -28,16 +31,16 @@ public class SphereController : MonoBehaviour
         //_moveVector = new Vector3(Input.GetAxis(_horizontal), 0, Input.GetAxis(_vertical));
         //_rigidbody.AddForce(_moveVector * _speed * Time.fixedDeltaTime);
 
-        if (Input.GetKey(KeyCode.A)) _horAxis = -1f;
-        else if (_horAxis < 0) _horAxis = 0;
-        if (Input.GetKey(KeyCode.D)) _horAxis = 1f;
-        else if (_horAxis > 0) _horAxis = 0;
-        if (Input.GetKey(KeyCode.S)) _verAxis = -1f;
-        else if (_verAxis < 0) _verAxis = 0;
-        if (Input.GetKey(KeyCode.W)) _verAxis = 1f;
-        else if (_verAxis > 0) _verAxis = 0;
+        //if (Input.GetKey(KeyCode.A)) _horAxis = -1f;
+        //else if (_horAxis < 0) _horAxis = 0;
+        //if (Input.GetKey(KeyCode.D)) _horAxis = 1f;
+        //else if (_horAxis > 0) _horAxis = 0;
+        //if (Input.GetKey(KeyCode.S)) _verAxis = -1f;
+        //else if (_verAxis < 0) _verAxis = 0;
+        //if (Input.GetKey(KeyCode.W)) _verAxis = 1f;
+        //else if (_verAxis > 0) _verAxis = 0;
 
-        _moveVector = new Vector3(_horAxis, 0, _verAxis);
+        _moveVector = _joyscick.GetDirection();
         _rigidbody.AddForce(_moveVector * _speed * Time.fixedDeltaTime);
     }
 }
