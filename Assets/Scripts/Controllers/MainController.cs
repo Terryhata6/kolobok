@@ -7,6 +7,7 @@ public class MainController : MonoBehaviour
     [SerializeField] private PlayerController _player;
     [SerializeField] private CameraController _cameraController;
     [SerializeField] private InputController _inputController; //главный инпут контроллер
+    [SerializeField] private EnemyController _enemyController; //главный инпут контроллер
     private List<IExecute> _executes = new List<IExecute>();
 
     private void Awake()
@@ -39,8 +40,16 @@ public class MainController : MonoBehaviour
         {
             Debug.LogError("InputController not found");
         }
+        _enemyController = FindObjectOfType<EnemyController>();
+        if (_enemyController != null)
+        {
+            _executes.Add(_enemyController);
+        }
+        else
+        {
+            Debug.LogError("EnemyController not found");
+        }
 
-        
     }
 
     private void Start()
