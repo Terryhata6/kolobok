@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: da37a44c9aa9c6f42aa2fa15b819ec87
+guid: 1f44b92a6dabb554294c2ac164e034e9
 ModelImporter:
   serializedVersion: 19300
   internalIDToNameTable:
   - first:
-      74: 2406288433439293231
-    second: bull_attack
+      74: 8455298435772755367
+    second: bull_right_turn_45
   externalObjects: {}
   materials:
     materialImportMode: 1
@@ -33,7 +33,36 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: bull_right_turn_45
+      takeName: bull_right_turn_45
+      internalID: 0
+      firstFrame: 220
+      lastFrame: 252
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 0
   meshes:
     lODScreenPercentages: []

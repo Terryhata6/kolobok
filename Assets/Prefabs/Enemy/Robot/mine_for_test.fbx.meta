@@ -1,11 +1,8 @@
 fileFormatVersion: 2
-guid: e16688e3f4748c54e9fbb6842e6ea6e8
+guid: 31e86bde5842a464b9e10798d65c2f74
 ModelImporter:
   serializedVersion: 19300
-  internalIDToNameTable:
-  - first:
-      74: 5567891643911642747
-    second: bull_left_turn_45
+  internalIDToNameTable: []
   externalObjects: {}
   materials:
     materialImportMode: 1

@@ -14,10 +14,10 @@ public abstract class Enemy : MonoBehaviour
    
     protected bool _rotateToHead = false;
     protected bool _attackReady = true;
-    protected bool _playerInTarget = false;
+    [SerializeField] protected bool _playerInTarget = false;
     protected bool _needCountDistance = true;
     protected bool _lookAtPlayer = true;
-    protected bool _isDead = false;
+    [SerializeField] protected bool _isDead = false;
     protected bool _differenceSideIsLeft = false;
     
     protected float _rotationDifference;
@@ -65,15 +65,19 @@ public abstract class Enemy : MonoBehaviour
     {
         if (_bodyHeadDifference)
         {
-            CountRotationDifference();
-            if (!_rotateToHead)
+            
+            if (_distanceToPlayer < _visibilityDistance) 
             {
-                OnBodyNotRotation();
-            }
-            if (_rotateToHead)
-            {                
-                OnBodyRotation();
-            }            
+                CountRotationDifference();
+                if (!_rotateToHead)
+                {
+                    OnBodyNotRotation();
+                }
+                if (_rotateToHead)
+                {
+                    OnBodyRotation();
+                }
+            }                       
         }
         if (_needCountDistance)
         {
@@ -89,12 +93,16 @@ public abstract class Enemy : MonoBehaviour
         }
         if (!_isDead)
         {
-            if (PlayerInTarget)
+            if (_playerInTarget)
             {
                 viewVector.x = _player.transform.position.x;
                 viewVector.y = _myHeadTransform.position.y;
                 viewVector.z = _player.transform.position.z;
                 _myHeadTransform.LookAt(viewVector);
+                
+                //_myHeadTransform.rotation = Quaternion.RotateTowards(_myHeadTransform.rotation, Quaternion.FromToRotation(_player.transform.position, transform.position), 2.0f); 
+                //transform.rotation = Quaternion.RotateTowards(_myHeadTransform.rotation, Quaternion.FromToRotation(_player.transform.position, transform.position), 2.0f); 
+                
                 SetAnimatorIdleState(true);                
             }
             else
@@ -104,6 +112,7 @@ public abstract class Enemy : MonoBehaviour
         }        
     }
 
+   
     protected virtual void OnBodyRotation()
     {        
         transform.rotation = Quaternion.RotateTowards(transform.rotation, _myHeadTransform.rotation, 0.5f);
@@ -138,7 +147,7 @@ public abstract class Enemy : MonoBehaviour
     public virtual void Attack(Transform weapon){
         _tempProjectile = Instantiate(_projectile, weapon.position, Quaternion.identity);
         _tempRigidbody = _tempProjectile.GetComponent<Rigidbody>();
-        _tempRigidbody.AddForce((_player.transform.position - transform.position) * _projectileSpeed, ForceMode.Impulse);
+        _tempRigidbody.AddForce((_player.transform.position - transform.position).normalized * _projectileSpeed, ForceMode.Impulse);
         Destroy(_tempProjectile, 2.0f);
     }
 

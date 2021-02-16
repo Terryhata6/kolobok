@@ -6,32 +6,30 @@ AvatarMask:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: UpperBodyAvatar 1
+  m_Name: New Avatar Mask
   m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
   m_Elements:
   - m_Path: 
     m_Weight: 1
-  - m_Path: BULL_V2
-    m_Weight: 0
+  - m_Path: BULL
+    m_Weight: 1
   - m_Path: Hips
-    m_Weight: 0
-  - m_Path: Hips/AIM
-    m_Weight: 0
-  - m_Path: Hips/AIM/Upper_body
     m_Weight: 1
-  - m_Path: Hips/AIM/Upper_body/gun_l
+  - m_Path: Hips/horizontal_aim
     m_Weight: 1
-  - m_Path: Hips/AIM/Upper_body/gun_r
+  - m_Path: Hips/horizontal_aim/gun_l
+    m_Weight: 1
+  - m_Path: Hips/horizontal_aim/gun_r
     m_Weight: 1
   - m_Path: Hips/LeftUpLeg
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: Hips/LeftUpLeg/LeftLeg
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: Hips/LeftUpLeg/LeftLeg/LeftFoot
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: Hips/RightUpLeg
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: Hips/RightUpLeg/RightLeg
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: Hips/RightUpLeg/RightLeg/RightFoot
-    m_Weight: 0
+    m_Weight: 1

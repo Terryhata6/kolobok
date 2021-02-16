@@ -1,11 +1,8 @@
 fileFormatVersion: 2
-guid: ce8fc82c43ff77444aac8157b843a81e
+guid: d127b0bfd033b9a4db01a7d5b5efa970
 ModelImporter:
   serializedVersion: 19300
-  internalIDToNameTable:
-  - first:
-      74: -4685912245193872365
-    second: bull_walk
+  internalIDToNameTable: []
   externalObjects: {}
   materials:
     materialImportMode: 1

@@ -11,15 +11,17 @@ AvatarMask:
   m_Elements:
   - m_Path: 
     m_Weight: 1
-  - m_Path: BULL
+  - m_Path: BULL_V2
     m_Weight: 1
   - m_Path: Hips
     m_Weight: 1
-  - m_Path: Hips/horizontal_aim
+  - m_Path: Hips/AIM
     m_Weight: 0
-  - m_Path: Hips/horizontal_aim/gun_l
+  - m_Path: Hips/AIM/Upper_body
     m_Weight: 0
-  - m_Path: Hips/horizontal_aim/gun_r
+  - m_Path: Hips/AIM/Upper_body/gun_l
+    m_Weight: 0
+  - m_Path: Hips/AIM/Upper_body/gun_r
     m_Weight: 0
   - m_Path: Hips/LeftUpLeg
     m_Weight: 1
