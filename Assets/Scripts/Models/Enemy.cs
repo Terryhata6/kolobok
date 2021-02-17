@@ -25,10 +25,9 @@ public abstract class Enemy : MonoBehaviour
     protected PlayerController _player;
     protected Animator _animator;
     protected EnemyController _enemyController;
-    protected Vector3 viewVector;
-    
-    private GameObject _tempProjectile;
-    private Rigidbody _tempRigidbody;
+    protected Vector3 viewVector;    
+    protected GameObject _tempProjectile;
+    protected Rigidbody _tempRigidbody;
 
 
     public bool PlayerInTarget 
@@ -115,7 +114,7 @@ public abstract class Enemy : MonoBehaviour
    
     protected virtual void OnBodyRotation()
     {        
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, _myHeadTransform.rotation, 0.5f);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, _myHeadTransform.rotation, 2f);
         if (_rotationDifference < 3) 
         {
             transform.rotation = _myHeadTransform.rotation;
@@ -142,13 +141,10 @@ public abstract class Enemy : MonoBehaviour
     }
 
 
-    public virtual void SetAnimatorIdleState(bool value){}
+    protected virtual void SetAnimatorIdleState(bool value){}
 
     public virtual void Attack(Transform weapon){
-        _tempProjectile = Instantiate(_projectile, weapon.position, Quaternion.identity);
-        _tempRigidbody = _tempProjectile.GetComponent<Rigidbody>();
-        _tempRigidbody.AddForce((_player.transform.position - transform.position).normalized * _projectileSpeed, ForceMode.Impulse);
-        Destroy(_tempProjectile, 2.0f);
+        
     }
 
 }

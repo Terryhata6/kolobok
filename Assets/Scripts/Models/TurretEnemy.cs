@@ -20,7 +20,7 @@ public class TurretEnemy : Enemy
         base.Execute();
                
     }
-    public override void SetAnimatorIdleState(bool value)
+    protected override void SetAnimatorIdleState(bool value)
     {
         base.SetAnimatorIdleState(value);
         MyAnimator.SetBool("Attack", value);
@@ -35,9 +35,13 @@ public class TurretEnemy : Enemy
     {
         Attack(_weapons[1]);
     }
+
     public override void Attack(Transform weapon) 
     {
         base.Attack(weapon);
-        
+        _tempProjectile = Instantiate(_projectile, weapon.position, Quaternion.identity);
+        _tempRigidbody = _tempProjectile.GetComponent<Rigidbody>();
+        _tempRigidbody.AddForce((_player.transform.position - transform.position).normalized * _projectileSpeed, ForceMode.Impulse);
+        Destroy(_tempProjectile, 2.0f);
     }
 }
