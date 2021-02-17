@@ -12,6 +12,11 @@ public class JoystickController : MonoBehaviour
     private Vector2 _direction;
     private bool _touchStart;
 
+    public bool TouchStart
+    {
+        get => _touchStart;
+    }
+
     private void Start()
     {
         _circle.GetComponent<Image>().enabled = false;
