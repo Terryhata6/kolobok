@@ -19,15 +19,18 @@ public class PlayerController : MonoBehaviour, IExecute
     private Animator _animatorIdle;
     private Animator _animatorRunner;
     [SerializeField] private Transform _rotateParentTransform;
-    [SerializeField][Range(1,10)] private float _sensetivity = 1;
-    [SerializeField][Range(1f,10)] private float _speedModifyer = 1f;
+    [SerializeField][Range(1, 10)] private float _sensetivity = 1;
+    [SerializeField][Range(1f, 1000)] private float _speedModifyer = 1f;
     private float _smoothAnimation;
     private float _animationBlend;
 
     public bool _stateSpinning = false;
     [SerializeField] [Range(2f, 100f)] private float _smoothRange = 5;
 
-    // Start is called before the first frame update
+    private JoystickController _input;
+
+
+
     private void Awake()
     {
         _rig = GetComponent<Rigidbody>();
@@ -37,7 +40,8 @@ public class PlayerController : MonoBehaviour, IExecute
 
         _animatorIdle = _idlePrefab.GetComponent<Animator>();
         _animatorRunner = _runnerPrefab.GetComponent<Animator>();
-        
+
+        _input = FindObjectOfType<JoystickController>();
     }
 
     void Start()
@@ -72,21 +76,14 @@ public class PlayerController : MonoBehaviour, IExecute
 
     private void OnMovement()
     {
-        /*if (_rig.velocity.magnitude )
-        { 
-        
-        }*/
-        _movingVector = _playerTransform.position;
-        if (_inputController.DragingStarted)
+
+        _movingVector = _input.GetDirection();
+
+        if (_input.TouchStart)
         {
             _animatorIdle.SetBool("Spinning", true);
-            _movingVector.x = _inputController.GetTargetVector.x;
-            _movingVector.y = 0;
-            _movingVector.z = _inputController.GetTargetVector.y;
 
-            _playerTransform.Translate(_movingVector * _speedModifyer * Time.deltaTime);
-            //_rig.MovePosition(_movingVector * _speedModifyer * Time.deltaTime);
-            //_rig.velocity += new Vector3(_inputController.GetTargetVector.x, 0, _inputController.GetTargetVector.y) / _speedModifyer;
+            _rig.AddForce(_movingVector * _speedModifyer * Time.fixedDeltaTime);
 
 
             _rotateParentTransform.rotation = Quaternion.RotateTowards(_rotateParentTransform.rotation, Quaternion.LookRotation(_movingVector), 30.0f);
