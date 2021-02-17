@@ -28,6 +28,10 @@ public class BullEnemy : Enemy
         if (_distanceToPlayer < _visibilityDistance)
         {
             _animator.SetBool("Attack", true);
+            foreach (var weapon in _weapons)
+            {
+                weapon.LookAt(_player.transform);
+            }
         }
         else 
         {
@@ -39,8 +43,8 @@ public class BullEnemy : Enemy
             _movementVector = transform.position - _player.transform.position;
             //_rig.AddForce(_movementVector.normalized * Time.deltaTime * _movementSpeed, ForceMode.Impulse);
             //_rig.AddForce(transform.forward *Time.deltaTime * 10, ForceMode.Impulse);
-            //transform.Translate(_movementVector.normalized * Time.deltaTime * _movementSpeed);
-            transform.Translate(transform.forward * Time.deltaTime * _movementSpeed);
+            transform.Translate(_movementVector.normalized * Time.deltaTime * _movementSpeed);
+            //transform.Translate(transform.forward * Time.deltaTime * _movementSpeed);
             ToMovementState();
         }
         else if (_distanceToPlayer < _CloseDistance)
@@ -73,7 +77,7 @@ public class BullEnemy : Enemy
     {
         if (_movementBlend > 0)
         {
-            _movementBlend -= 0.01f;
+            _movementBlend -= 0.02f;
         }
         else
         {
@@ -107,7 +111,7 @@ public class BullEnemy : Enemy
         _animator.SetFloat("VerticalRota", _verticalBlend);
     }
 
-    public override void SetAnimatorIdleState(bool value) 
+    protected override void SetAnimatorIdleState(bool value) 
     {
         base.SetAnimatorIdleState(value);
         _animator.SetBool("Idle", !value);
@@ -115,5 +119,22 @@ public class BullEnemy : Enemy
         _pursue = value;
     }
 
+    public void AttackLeftGun()
+    {
+        Attack(_weapons[0]);
+    }
+    public void AttackRightGun()
+    {
+        Attack(_weapons[1]);
+    }
+
+    public override void Attack(Transform weapon)
+    {
+        base.Attack(weapon);
+        _tempProjectile = Instantiate(_projectile, weapon.position, Quaternion.identity);
+        _tempRigidbody = _tempProjectile.GetComponent<Rigidbody>();
+        _tempRigidbody.AddForce((_player.transform.position - weapon.position).normalized * _projectileSpeed, ForceMode.Impulse);
+        Destroy(_tempProjectile, 2.0f);
+    }
 
 }

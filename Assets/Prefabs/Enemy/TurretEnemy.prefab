@@ -31,6 +31,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f9243f5c41e87b4aa8a314264c297ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _turret: {fileID: 2521213697830552722}
 --- !u!1 &5743654021806332847
 GameObject:
   m_ObjectHideFlags: 0
@@ -85,6 +86,9 @@ MonoBehaviour:
   _visibilityDistance: 20
   _projectileSpeed: 100
   _bodyHeadDifference: 0
+  _distanceToPlayer: 0
+  _playerInTarget: 0
+  _isDead: 0
 --- !u!1001 &8379803604357675538
 PrefabInstance:
   m_ObjectHideFlags: 0
