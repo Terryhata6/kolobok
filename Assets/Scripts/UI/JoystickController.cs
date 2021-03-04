@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class JoystickController : MonoBehaviour
+public class JoystickController : MonoBehaviour, IExecute
 {
     [SerializeField] private GameObject _circle;
     [SerializeField] private GameObject _outerCircle;
@@ -23,7 +23,7 @@ public class JoystickController : MonoBehaviour
         _outerCircle.GetComponent<Image>().enabled = false;
     }
 
-    private void Update()
+    public void Execute()
     {
         if (Input.GetMouseButtonDown(0))
         {
