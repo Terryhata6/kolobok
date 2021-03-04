@@ -35,6 +35,21 @@ public class KolobotManager : MonoBehaviour
         _player.ChangeSpinningState(false);
     }
 
-    
+    public void AttackLeftWeapon()
+    {
+        _player.AttackLeftWeapon();
+    }
+
+    public void AttackRightWeapon()
+    {
+        _player.AttackRightWeapon();
+    }
+
+    public void AttackBothWeapon()
+    {
+        _player.AttackLeftWeapon();
+        _player.AttackRightWeapon();
+    }
+
 
 }

@@ -9,15 +9,15 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] [Range(.1f, 1.0f)] protected float _cooldownAttackTime;
     [SerializeField] protected float _visibilityDistance;
     [SerializeField] protected float _projectileSpeed = 100;
-    [SerializeField] protected bool _bodyHeadDifference = false;
     [SerializeField] protected float _distanceToPlayer;
+    [SerializeField] protected bool _bodyHeadDifference = false;
+    [SerializeField] protected bool _playerInTarget = false;
+    [SerializeField] protected bool _isDead = false;
    
     protected bool _rotateToHead = false;
     protected bool _attackReady = true;
-    [SerializeField] protected bool _playerInTarget = false;
     protected bool _needCountDistance = true;
     protected bool _lookAtPlayer = true;
-    [SerializeField] protected bool _isDead = false;
     protected bool _differenceSideIsLeft = false;
     
     protected float _rotationDifference;
@@ -29,11 +29,16 @@ public abstract class Enemy : MonoBehaviour
     protected GameObject _tempProjectile;
     protected Rigidbody _tempRigidbody;
 
+    public float DistanceToPlayer
+    {
+        get => _distanceToPlayer;
+    }
 
     public bool PlayerInTarget 
     {
         get => _playerInTarget;
-    }    
+    }
+
     public Animator MyAnimator
     {
         get => _animator;
@@ -141,10 +146,22 @@ public abstract class Enemy : MonoBehaviour
     }
 
 
-    protected virtual void SetAnimatorIdleState(bool value){}
+    protected virtual void SetAnimatorIdleState(bool value) 
+    { 
+    
+    }
 
-    public virtual void Attack(Transform weapon){
+    public virtual void Attack(Transform weapon)
+    {
         
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("PlayerProjectile"))
+        {
+            _enemyController.RemoveEnemyFromList(this);
+            Destroy(this.gameObject);
+        }    
+    }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BullEnemy : Enemy
 {    
-    [SerializeField]protected float _CloseDistance = 2;
+    [SerializeField] protected float _CloseDistance = 2;
     [SerializeField] protected float _movementSpeed = 3;
     [SerializeField] protected Rigidbody _rig;
     protected Vector3 _movementVector;
@@ -41,10 +41,8 @@ public class BullEnemy : Enemy
         {
             SetAnimatorIdleState(true);
             _movementVector = transform.position - _player.transform.position;
-            //_rig.AddForce(_movementVector.normalized * Time.deltaTime * _movementSpeed, ForceMode.Impulse);
-            //_rig.AddForce(transform.forward *Time.deltaTime * 10, ForceMode.Impulse);
-            transform.Translate(_movementVector.normalized * Time.deltaTime * _movementSpeed);
-            //transform.Translate(transform.forward * Time.deltaTime * _movementSpeed);
+            //transform.Translate(_movementVector.normalized * Time.deltaTime * _movementSpeed);            
+            transform.Translate(Vector3.forward * Time.deltaTime * _movementSpeed);            
             ToMovementState();
         }
         else if (_distanceToPlayer < _CloseDistance)

@@ -26,17 +26,18 @@ public class CameraController : MonoBehaviour, IExecute
     private bool _objectChanging;
     [SerializeField] private bool _cameraRotate;
     private Vector3 _newDirection;
-    private Vector3 _inputRotation;
+    private Quaternion _inputRotation;
     private float _deltaEpsilonForRotate = 0.001f;
     private bool _deltaChecked = false;
+    private Quaternion _baseRotation;
+
 
     private void Start()
     {
         _objectChanging = false;
-
-        //Quaternion x = new Quaternion();
-        //x.SetLookRotation();
-        _inputRotation = new Vector3(-2, -1, -1);
+        _baseRotation = transform.rotation;
+        
+        
     }
 
     public void Execute()
@@ -63,8 +64,8 @@ public class CameraController : MonoBehaviour, IExecute
         }
         if (_cameraRotate)
         {
-            _newDirection = Vector3.RotateTowards(transform.forward, _inputRotation, _rotationSpeed * Time.deltaTime, 0.0f);
-            transform.rotation = Quaternion.LookRotation(_newDirection);
+            
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, _inputRotation, 2.0f);
             //CheckDelta();
             Invoke("InvokedMethod", 2);
         }
@@ -100,15 +101,29 @@ public class CameraController : MonoBehaviour, IExecute
         _objectChanging = true;
     }
 
-    public void SetCameraRotation(Vector3 inputRotation)
+    public void SetCameraRotation(Vector3 fromRotation, Vector3 toRotation)
     {
         _cameraRotate = true;
-        _inputRotation = inputRotation;
+        _inputRotation = Quaternion.FromToRotation(fromRotation, toRotation);
     }
 
-    public void SetCameraDistance(float value) { }
+    public void SetCameraRotation(Quaternion inputRotation)
+    {
+        transform.rotation = inputRotation;
+    }
 
-    public GameObject GetPursuedObject()
+
+    public void SetCameraDistance(float value) 
+    { 
+    
+    }
+
+    public void SetCameraBaseRotation( )
+    {
+        SetCameraRotation(_baseRotation);
+    }
+
+    public GameObject GetPursuedObject() 
     {
         return _pursuedObject;
     }

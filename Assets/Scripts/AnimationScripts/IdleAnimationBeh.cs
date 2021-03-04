@@ -5,6 +5,7 @@ using UnityEngine;
 public class IdleAnimationBeh : StateMachineBehaviour
 {
     private KolobotManager _manager;
+    private PlayerController _player;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -14,6 +15,14 @@ public class IdleAnimationBeh : StateMachineBehaviour
         }
 
         _manager.TurnStatesToIdle();
+
+
+        if (_player == null)
+        {
+            _player = animator.gameObject.GetComponentInParent<PlayerController>();
+        }
+
+        _player.SetPlayerState(PlayerState.Idle);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
