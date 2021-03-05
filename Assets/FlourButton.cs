@@ -6,17 +6,19 @@ using UnityEngine;
 
 public class FlourButton : MonoBehaviour
 {
-    [SerializeField]private Material[] _materials = new Material[5];
-    [SerializeField]private ButtonType type;
-    private Material _disabledMaterial;
+    [SerializeField] private Material[] _materials = new Material[5];
+    [SerializeField] private ButtonType type;
+    [SerializeField] private BaseActivatedObject[] _elements;
+    [SerializeField] private MeshRenderer _renderer;
+
     private Material _enabledMaterial;
-
-
-    [SerializeField]private MeshRenderer _renderer;
+    private Material _disabledMaterial;
     private bool _enabled = false;
-    // Start is called before the first frame update
-       
 
+    public BaseActivatedObject[]  Elements => _elements;
+
+
+    
     private void Awake()
     {
         _renderer = GetComponent<MeshRenderer>();
@@ -32,7 +34,6 @@ public class FlourButton : MonoBehaviour
         _enabledMaterial = _materials[0];
         ChangeMaterial();
     }
-
     private void ChangeMaterial()
     {
         if (_enabled)
@@ -52,17 +53,51 @@ public class FlourButton : MonoBehaviour
             TurnState();
         }
     }
-
+    /// <summary>
+    /// Turn button state to another state
+    /// </summary>
     private void TurnState()
     {
         if (!_enabled)
         {
             _enabled = true;
+            OnEnable();
         }
         else
         {
             _enabled = false;
+            OnDisable();
         }
         ChangeMaterial();
     }
+
+    /// <summary>
+    /// Call OnDisable methods in all connected IActivate elements
+    /// </summary>
+    private void OnDisable()
+    {
+        //if (_elements[0] != null) 
+        //{
+        //    foreach (IActivate element in _elements)
+        //    {
+        //        element.OnDisable();
+        //    }
+        //}        
+    }
+
+    /// <summary>
+    /// Call OnDisable methods in 
+    /// </summary>
+    private void OnEnable()
+    {
+        /*
+        if (_elements[0] != null)
+        {
+            foreach (IActivate element in _elements)
+            {
+                element.OnEnable();
+            }
+        }*/
+    }
+
 }

@@ -53,7 +53,7 @@ public abstract class Enemy : MonoBehaviour
     public virtual void Start()
     {
         _player = FindObjectOfType<PlayerController>();
-        _enemyController = FindObjectOfType<EnemyController>();
+        _enemyController = FindObjectOfType<MainController>().EnemyController;
         if (_enemyController != null)
         {
             _enemyController.AddEnemy(this);

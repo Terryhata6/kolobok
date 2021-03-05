@@ -1,28 +1,44 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class JoystickController : MonoBehaviour, IExecute
+public class JoystickController : IExecute, IInitialize, IFixedExecute
 {
-    [SerializeField] private GameObject _circle;
-    [SerializeField] private GameObject _outerCircle;
+    private GameObject _circle;
+    private GameObject _outerCircle;
+    private JoystickModel _joystickModel;
 
     private Vector2 _pointA;
     private Vector2 _pointB;
     private Vector2 _offset;
     private Vector2 _direction;
     private bool _touchStart;
-
     public bool TouchStart
     {
         get => _touchStart;
     }
 
-    private void Start()
+    #region Constructors
+    public JoystickController()
     {
-        _circle.GetComponent<Image>().enabled = false;
-        _outerCircle.GetComponent<Image>().enabled = false;
+        _joystickModel = GameObject.FindObjectOfType<JoystickModel>();
+        _circle = _joystickModel.Circle;
+        _outerCircle = _joystickModel.OuterCircle;
     }
 
+    public JoystickController(GameObject circle, GameObject outerCircle)
+    {
+        _circle = circle;
+        _outerCircle = outerCircle;
+    }
+    #endregion
+    #region Initialize
+    public void Initialize()
+    {
+        _circle.GetComponent<Image>().enabled = false;        
+        _outerCircle.GetComponent<Image>().enabled = false;
+    }
+    #endregion
+    #region Execute
     public void Execute()
     {
         if (Input.GetMouseButtonDown(0))
@@ -46,8 +62,9 @@ public class JoystickController : MonoBehaviour, IExecute
             _touchStart = false;
         }
     }
-
-    private void FixedUpdate()
+    #endregion
+    #region FixedExecute
+    public void FixedExecute()
     {
         if (_touchStart)
         {
@@ -63,6 +80,7 @@ public class JoystickController : MonoBehaviour, IExecute
             _direction = Vector3.zero;
         }
     }
+    #endregion
 
     public Vector3 GetDirection()
     {
