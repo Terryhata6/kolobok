@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour, IExecute
+public class EnemyController : IExecute, IInitialize
 {
     private List<Enemy> _enemies = new List<Enemy>();
     private PlayerController _player;
@@ -10,19 +10,18 @@ public class EnemyController : MonoBehaviour, IExecute
     private Enemy _oldClosestEnemy = null;
     private float _closestEnemyDistance = 0;
     private float _playerAttackDistance;
-    private void Awake()
-    {
-        _player = FindObjectOfType<PlayerController>();
-        _playerAttackDistance = _player.AttackDistance;
-    }
 
-    private void Start()
+    #region IInitialize
+    public void Initialize() 
     {
-        
+        _playerAttackDistance = _player.AttackDistance; 
+    
     }
-
+    #endregion
+    #region IExecute
     public void Execute() 
     {
+        #region Execute
         foreach (var enemy in _enemies)
         {
             enemy.Execute();
@@ -36,6 +35,7 @@ public class EnemyController : MonoBehaviour, IExecute
                 _closestEnemyDistance = _closestEnemy.DistanceToPlayer;
             }
         }
+        #endregion
 
         if (_oldClosestEnemy == null)
         {
@@ -60,7 +60,8 @@ public class EnemyController : MonoBehaviour, IExecute
             _closestEnemyDistance = _playerAttackDistance + 0.01f;
         }
     }
-
+    #endregion
+    #region Methods
     public void AddEnemy(Enemy enemy)
     {
         if (!_enemies.Contains(enemy))
@@ -80,4 +81,10 @@ public class EnemyController : MonoBehaviour, IExecute
             }
         }
     }
+
+    public void SetPlayer(PlayerController player)
+    {
+        _player = player;
+    }
+    #endregion
 }

@@ -2,38 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InputController : MonoBehaviour, IExecute
+public class InputController :  IExecute, IInitialize
 {
 	public Vector3 TouchPosition;
-	[SerializeField]private bool UseMouse = false;
-	[SerializeField]private Camera CameraForInput;
+	private bool UseMouse = false;
+	private Camera _cameraForInput;
+	private Vector3 _targetVector;
 
 	private bool _dragingStarted = false;	
 	private Touch touch;
-	[SerializeField] private Vector3 _targetVector;
 	private Vector3 _startTouchPosition;
 	private float _magnitude;
-	public float Magnitude
+    
+	#region Constructors
+    public InputController()
 	{
-		get => _magnitude;
+		_cameraForInput = GameObject.FindObjectOfType<CameraForInput>().GetComponent<Camera>();
 	}
 
-	public Vector3 GetTargetVector
+	public InputController(Camera camera)
 	{
-		get => _targetVector;
+		_cameraForInput = camera;
 	}
-
-	public bool DragingStarted
-	{
-		get => _dragingStarted;
-	}
-
-
-	private void Start()
+    #endregion
+    #region IInitialize
+    public void Initialize()
 	{
 		TouchPosition = Vector3.zero;
 	}
-
+    #endregion 
     #region IExecute
     public void Execute()
 	{
@@ -46,11 +43,11 @@ public class InputController : MonoBehaviour, IExecute
 				{
 					_dragingStarted = true;
 					///_startTouchPosition = touch.position;
-					TouchPosition = CameraForInput.ScreenToWorldPoint(touch.position);
+					TouchPosition = _cameraForInput.ScreenToWorldPoint(touch.position);
 				}
 				else if (touch.phase == TouchPhase.Moved)
 				{
-					TouchPosition = CameraForInput.ScreenToWorldPoint(touch.position);
+					TouchPosition = _cameraForInput.ScreenToWorldPoint(touch.position);
 				}
 			}
 			else
@@ -85,5 +82,19 @@ public class InputController : MonoBehaviour, IExecute
 		}
 	}
     #endregion
-    
+
+	public float Magnitude
+	{
+		get => _magnitude;
+	}
+
+	public Vector3 GetTargetVector
+	{
+		get => _targetVector;
+	}
+
+	public bool DragingStarted
+	{
+		get => _dragingStarted;
+	}	    
 }

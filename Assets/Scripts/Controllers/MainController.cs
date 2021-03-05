@@ -7,54 +7,58 @@ public class MainController : MonoBehaviour
     [SerializeField] private PlayerController _player;
     [SerializeField] private CameraController _cameraController;
     [SerializeField] private InputController _inputController; //главный инпут контроллер
-    [SerializeField] private EnemyController _enemyController; //главный инпут контроллер
-    [SerializeField] private JoystickController _joystickController; //главный инпут контроллер
-    
-    private List<IExecute> _executes = new List<IExecute>();
+    [SerializeField] private EnemyController _enemyController; 
+    [SerializeField] private JoystickController _joystickController; 
+    public EnemyController EnemyController => _enemyController;
+    public InputController InputController => _inputController;
+    public JoystickController JoystickController => _joystickController;
+
+    private List<IExecute > _executes = new List<IExecute>();
 
     private void Awake()
     {
         _player = FindObjectOfType<PlayerController>();
         if (_player != null)
         {
-            _executes.Add(_player);
+            AddExecute(_player);
         }
         else
         {
             Debug.LogError("Player not found");
-        }        
+        }
         _cameraController = FindObjectOfType<CameraController>();
         if (_cameraController != null)
         {
-            _executes.Add(_cameraController);
+            AddExecute(_cameraController);
             _cameraController.SetPursuedObject(_player.gameObject);
         }
         else
         {
             Debug.LogError("Camera not found");
-        }           
-        _inputController = FindObjectOfType<InputController>();
+        }
+        _inputController = new InputController();
         if (_inputController != null)
         {
-            _executes.Add(_inputController);
+            AddExecute(_inputController);
         }
         else
         {
             Debug.LogError("InputController not found");
         }
-        _enemyController = FindObjectOfType<EnemyController>();
+        _enemyController = new EnemyController();
         if (_enemyController != null)
         {
-            _executes.Add(_enemyController);
+            AddExecute(_enemyController);
+            _enemyController.SetPlayer(_player);
         }
         else
         {
             Debug.LogError("EnemyController not found");
         }
-        _joystickController = FindObjectOfType<JoystickController>();
+        _joystickController = new JoystickController();
         if (_joystickController != null)
         {
-            _executes.Add(_joystickController);
+            AddExecute(_joystickController);
         }
         else
         {
@@ -64,16 +68,31 @@ public class MainController : MonoBehaviour
 
     private void Start()
     {
-        
-        
+        foreach (IExecute exe in _executes)
+        {
+            if (exe is IInitialize initialize)
+            {
+                initialize.Initialize();
+            }
+        }
     }
 
-    // Update is called once per frame
     private void Update()
     {
         foreach (IExecute exe in _executes)
         {
-            exe.Execute();
+            exe.Execute();            
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        foreach (IExecute exe in _executes)
+        {
+            if (exe is IFixedExecute FixedExecutable)
+            {
+                FixedExecutable.FixedExecute();
+            }
         }
     }
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerController : MonoBehaviour, IExecute
+public class PlayerController : MonoBehaviour, IExecute, IInitialize
 {
     [SerializeField] private KolobotManager _idlePrefab;
     [SerializeField] private SpinningBotManager _runnerPrefab;
@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour, IExecute
     [SerializeField]private PlayerState _playerState = PlayerState.Idle;
 
 
+    private MainController _mainController;
     private Vector3 _movingVector;
     private Rigidbody _rig;
     private Animator _animatorIdle;
@@ -46,23 +47,19 @@ public class PlayerController : MonoBehaviour, IExecute
     }
 
     #region Unity
-    private void Awake()
+    
+
+    public void Initialize()
     {
         _rig = GetComponent<Rigidbody>();
-        _inputController = FindObjectOfType<InputController>();
+        _mainController = FindObjectOfType<MainController>();
+        _inputController = _mainController.InputController;
+        _input = _mainController.JoystickController;
         _animatorIdle = _idlePrefab.GetComponent<Animator>();
         _animatorRunner = _runnerPrefab.GetComponent<Animator>();
-        _input = FindObjectOfType<JoystickController>();
-    }
-
-    void Start()
-    {
         _runnerPrefab.SetRenderersState(false);
-    }
-
-    /// <summary>
-    /// executable in one update
-    /// </summary>
+    }    
+    
     public void Execute()
     {
         if (_playerState != PlayerState.Spinning)

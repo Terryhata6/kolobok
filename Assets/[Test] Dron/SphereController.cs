@@ -4,11 +4,11 @@
 public class SphereController : MonoBehaviour
 {
     [SerializeField] private float _speed;
-
     [SerializeField] private float _horAxis;
     [SerializeField] private float _verAxis;
 
     private JoystickController _joyscick;
+    private MainController _mainController;
 
     private Vector3 _moveVector;
     private Rigidbody _rigidbody;
@@ -19,8 +19,9 @@ public class SphereController : MonoBehaviour
 
     private void Start()
     {
+        _mainController = FindObjectOfType<MainController>();
         _rigidbody = GetComponent<Rigidbody>();
-        _joyscick = FindObjectOfType<JoystickController>();
+        _joyscick = _mainController.JoystickController;
     }
 
     private void FixedUpdate()
