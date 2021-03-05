@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3529868ada5ec14ba473f1afd1dcde1, type: 3}
   m_Name: SnapSettings
   m_EditorClassIdentifier: 
-  SnapDistance: 3
+  SnapDistance: 1

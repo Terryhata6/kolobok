@@ -23,7 +23,7 @@ namespace kolobok
                     throw new ArgumentOutOfRangeException();
             }
             //Gizmos.color = Color.green;
-            Gizmos.DrawSphere(transform.position, 1.0f);
+            Gizmos.DrawSphere(transform.position, 0.2f);
         }
     }
 }
